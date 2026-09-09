@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mci-cluster-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mci-cluster-client
+  template:
+    metadata:
+      labels:
+        app: mci-cluster-client
+    spec:
+      containers:
+        - name: mci-cluster-client
+          image: mci-cluster-client:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: HOSTS
+              valueFrom:
+                configMapKeyRef:
+                  name: mci-cluster-client-config
+                  key: HOSTS
